@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 2.8)
+project( OpenCL )
+find_package( OpenCV REQUIRED )
+add_executable( OpenCL opencl.cpp image.cpp kernel.cl filter.cpp image.hpp)
+target_link_libraries( OpenCL ${OpenCV_LIBS} )
+find_package(OpenCL REQUIRED)
+target_link_libraries(OpenCL OpenCL::OpenCL)
