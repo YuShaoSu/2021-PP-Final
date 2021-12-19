@@ -42,7 +42,7 @@ int main(int argc, char *argv[]) {
 	cout << "Appling filter..." << endl;
 
 	startTime = CycleTimer::currentSeconds();
-	img.GaussianFliter(kernel);
+	img.GaussianFliterOpenMP(kernel);
 	endTime = CycleTimer::currentSeconds();
 	cout << "Apply filter elapsed time: " << endTime - startTime << endl;
 
