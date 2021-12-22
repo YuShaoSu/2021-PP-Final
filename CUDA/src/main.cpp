@@ -7,44 +7,35 @@ using namespace std;
 int main(int argc, char *argv[]) {
 
 	// Original image file name
-	string image_file_name= "../../image/Lenna.png", result_file_name= "filter.png";
+	if(argc != 2) {
+		cout << "Please input one parameter for image file name!" << endl;
+		return 0;
+	}
+	// Original image file name
+	string image_file_name= "../../image/";
+	image_file_name.append(argv[1]);
+	string result_file_name = argv[1];
+	result_file_name.append("_filter.jpg");
+	
 	int radius = 5;
 	double sigma = 10;
 
-	/*cout << "Original image name: " << endl;
-	cin >> image_file_name;
-	
-	cout << "Result image name: " << endl;
-	cin >> result_file_name;
-    
-	cout << "Radius: " << endl;  
-	cin >> radius;
-	
-	cout << "Sigma:" << endl;
-	cin >> sigma;*/
-
+	double startTime = CycleTimer::currentSeconds();
 	GaussianKernel kernel(radius,sigma);
 	kernel.Calculation();
-	cout << "Loading image..." << endl;
 	
     Image img(image_file_name, result_file_name);
 
 	img.image_load();
 
-	//img.check();
-	
-	cout << "Appling filter..." << endl;
-	double startTime = CycleTimer::currentSeconds();
 	img.GaussianFliter(kernel);
-    double endTime = CycleTimer::currentSeconds();
-    double minSerial = endTime - startTime;
+    // double minSerial = endTime - startTime;
+	// cout << "GaussianFliter cuda: "<<  minSerial * 1000 << " ms" << endl;
 
-	cout << "GaussianFliter cuda: "<<  minSerial * 1000 << " ms" << endl;
-
-	cout << "Writing image to disk..." << endl;
 	img.image_write();
+    double endTime = CycleTimer::currentSeconds();
 
-	cout << "DONE!"<< endl;
+	cout << "CUDA done, elapsed time: " << endTime - startTime << endl;
 
 	return 0;
 }

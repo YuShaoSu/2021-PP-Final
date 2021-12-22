@@ -2,3 +2,8 @@ filter.jpg
 filter.png
 target
 .vscode/
+*/src/*.jpg
+*.o
+CMakeCache.txt
+CMakeFiles/
+*.cmake

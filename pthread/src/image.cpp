@@ -65,7 +65,6 @@ void Image::apply_to_pixel(const int x, const int y)
 void Image::GaussianFilterWorker(int idx) {
 	int start = idx * per_t;
 	int end = idx == t_num - 1 ? height : (idx + 1) * per_t;
-	cout << "start " << start << " end " << end << " per_t " << per_t << endl;
 	for(int y = start; y < end; y++){
 		// cout << "img worker " << y << endl;
 		for(int x = 0; x < width; x++){
