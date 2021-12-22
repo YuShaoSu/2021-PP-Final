@@ -17,7 +17,7 @@ int main(int argc, char *argv[]) {
 	string result_file_name = argv[1];
 	result_file_name.append("_filter.jpg");
 	
-	int radius = 5;
+	int radius = 3;
 	double sigma = 10;
 
 	double startTime = CycleTimer::currentSeconds();

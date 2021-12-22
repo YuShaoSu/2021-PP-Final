@@ -17,10 +17,10 @@ class Image
 public:
 
 	string input_file, output_file;
-	int width, height, color_depth;
+	int width, height, color_depth, t_num;
 	Pixel** pixels;
 	Mat img;
-	Image(string input_file, string output_file):input_file(input_file), output_file(output_file){};
+	Image(string input_file, string output_file, int t_num):input_file(input_file), output_file(output_file), t_num(t_num){};
 	
 	~Image()
 	{

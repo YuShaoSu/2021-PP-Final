@@ -67,6 +67,7 @@ void Image::GaussianFliter(const GaussianKernel& kernel)
 
 void Image::GaussianFliterOpenMP(const GaussianKernel& kernel)
 {
+	omp_set_num_threads(t_num);
 	#pragma omp parallel for
 	for(int y = 0; y < height; y++)
 		for(int x = 0; x < width; x++)

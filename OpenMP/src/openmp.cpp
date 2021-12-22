@@ -7,16 +7,16 @@ using namespace std;
 
 int main(int argc, char *argv[]) {
 
-	if(argc != 2) {
-		cout << "Please input one parameter for image file name!" << endl;
+	if(argc != 3) {
+		cout << "Please input thread number and image file name!" << endl;
 		return 0;
 	}
 	// Original image file name
 	string image_file_name= "../../image/";
-	image_file_name.append(argv[1]);
-	string result_file_name = argv[1];
+	image_file_name.append(argv[2]);
+	string result_file_name = argv[2];
 	result_file_name.append("_filter.jpg");
-	int radius = 7;
+	int radius = 3, t_num = stoi(argv[1]);
 	double sigma = 10;
 
 	GaussianKernel kernel(radius,sigma);
@@ -24,7 +24,7 @@ int main(int argc, char *argv[]) {
 	kernel.Calculation();
 
 	
-    Image img(image_file_name, result_file_name);
+    Image img(image_file_name, result_file_name, t_num);
 
 	img.image_load();
 
