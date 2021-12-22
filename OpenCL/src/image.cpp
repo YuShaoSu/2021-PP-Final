@@ -47,7 +47,7 @@ void Image::GaussianFliter(const GaussianKernel& kernel)
 	err_platform = clGetPlatformIDs(1, &pid, &num_platform);
 	err_device = clGetDeviceIDs(pid, CL_DEVICE_TYPE_GPU, 1, &did, &num_device);
 	clGetDeviceInfo(did,CL_DEVICE_NAME,500,dname,NULL);
-	cout<<dname<<endl;
+	// cout<<dname<<endl;
 	cl_context ctx = clCreateContext(NULL, 1, &did, 0, 0, &err_context);
 
 	cl_command_queue cmd_queue = clCreateCommandQueueWithProperties(ctx, did, 0, &err_cmdq);  
@@ -139,7 +139,7 @@ void Image::GaussianFliter(const GaussianKernel& kernel)
     clEnqueueNDRangeKernel(cmd_queue, kernelt, 2, 0, globalws, 0, 0, 0, 0);
 
     // copy results from device back to host
-    clEnqueueReadBuffer(cmd_queue, out_img_mem, CL_TRUE, 0, size, cl_output, 0, NULL, NULL); // CL_TRUE: blocking read back
+    clEnqueueReadBuffer(cmd_queue, out_img_mem, CL_TRUE, 0, size, output, 0, NULL, NULL); // CL_TRUE: blocking read back
 
     // free opencl object
     clReleaseMemObject(in_img_mem);

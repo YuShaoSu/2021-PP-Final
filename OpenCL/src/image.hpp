@@ -5,7 +5,7 @@
 #include <string>
 #include <stdio.h>
 #include <stdlib.h>
-#include <CL/cl.h>
+#include <CL/opencl.h>
 #include "pixel.hpp"
 #include "filter.hpp"
 #include <opencv2/opencv.hpp>

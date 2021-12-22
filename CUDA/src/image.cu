@@ -34,7 +34,7 @@ void Image::check()
 
 
 
-__global__ void cudaGaussianFliter(Pixel* input_cuda, Pixel* output_cuda, double** matrix, const int radius, const int width, const int height) 
+__global__ void cudaGaussianFliter(Pixel* input_cuda, Pixel* output_cuda, double* matrix, const int radius, const int width, const int height) 
 {
     
     int col = blockIdx.x * blockDim.x + threadIdx.x; //thread block
@@ -45,13 +45,13 @@ __global__ void cudaGaussianFliter(Pixel* input_cuda, Pixel* output_cuda, double
 		Pixel res;
 		res.R = res.G = res.B = 0;
 		double fil;
-		if (row > radius && col > radius && col < width - radius && row < height - radius)
+		if (row >= radius && col >= radius && col < width - radius && row < height - radius)
 		{
 
 			for(int i = -radius; i <= radius; i++) 
 				for(int j = -radius; j <= radius; j++) 
 				{
-					fil = matrix[i + radius][j + radius];
+					fil = matrix[(i + radius) * radius + j + radius];
 					res.R += fil * input_cuda[(row + i) * width + col + j].R;
 					res.G += fil * input_cuda[(row + i) * width + col + j].G;
 					res.B += fil * input_cuda[(row + i) * width + col + j].B;
@@ -61,18 +61,15 @@ __global__ void cudaGaussianFliter(Pixel* input_cuda, Pixel* output_cuda, double
 
 		output_cuda[row * width + col] = res;
 	}
-	
 }
 
 
 void Image::GaussianFliter(const GaussianKernel& kernel)
 {
-    int blocksNumX = (int) ceil(width / (float) THREAD);
-    int blocksNumY = (int) ceil(height / (float) THREAD);
 
     Pixel *input_cuda, *output_cuda;
 	Pixel *output = new Pixel[width * height];
-	double ** matrix;
+	double * matrix;
 
     int size = width * height * sizeof(Pixel); // image size byte
 	int kernel_size = kernel.dim * kernel.dim * sizeof(double);
@@ -84,16 +81,19 @@ void Image::GaussianFliter(const GaussianKernel& kernel)
 	cudaMemcpy(input_cuda, pixels, size, cudaMemcpyHostToDevice);
 	cudaMemcpy(output_cuda, output, size, cudaMemcpyHostToDevice);
 	cudaMemcpy(matrix, kernel.matrix, kernel_size, cudaMemcpyHostToDevice);
+	
+	int block = (int) sqrt(THREAD);
+    int blocksNumX = (width + block - 1) /  block;
+    int blocksNumY = (height + block - 1) / block;
 
-    dim3 threadPerBlock(THREAD, THREAD);
+    dim3 threadPerBlock(block, block);
     dim3 numBlocks(blocksNumX, blocksNumY);
     cudaGaussianFliter <<< numBlocks, threadPerBlock >>> (input_cuda, output_cuda, matrix, kernel.radius, width, height);
 
-    //cout << "r: " << pixels[130*width+130].R << " g: " << pixels[130*width+130].G << " b: " << pixels[130*width+130].B << endl;
     cudaMemcpy(output, output_cuda, size, cudaMemcpyDeviceToHost);
 	
 	memcpy(pixels, output, size);
-	//cout << "r: " << pixels[130*width+ 130].R << " g: " << pixels[130*width+130].G << " b: " << pixels[130*width+130].B << endl;
+
 	delete [] output;
     cudaFree(input_cuda);
 	cudaFree(output_cuda);

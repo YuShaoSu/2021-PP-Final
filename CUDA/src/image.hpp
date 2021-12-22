@@ -12,7 +12,7 @@
 #include "pixel.hpp"
 #include "filter.hpp"
 
-#define THREAD 16
+#define THREAD 1024
 using namespace std;
 using namespace cv;
 

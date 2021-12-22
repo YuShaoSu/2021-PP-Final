@@ -16,7 +16,8 @@ int main(int argc, char *argv[]) {
 	string image_file_name= "../../image/";
 	image_file_name.append(argv[2]);
 	string result_file_name = argv[2];
-	result_file_name.append("_filter.jpg");	int radius = 7;
+	result_file_name.append("_filter.jpg");	
+	int radius = 5;
 	double sigma = 10;
 	int t_num = stoi(argv[1]);
 
