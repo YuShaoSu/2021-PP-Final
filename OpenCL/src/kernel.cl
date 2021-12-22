@@ -1,3 +1,4 @@
+#include "image.hpp"
 __kernel void CL_GaussianFliter(__global Pixel* cl_input, __global Pixel* cl_output,__global double** matrix,__global const int radius,__global const int width,__global const int height) 
 {
     
