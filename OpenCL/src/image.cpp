@@ -91,14 +91,14 @@ void Image::GaussianFliter(const GaussianKernel& kernel)
   	size_t src_length=srcProg.length();
   	program_cl=clCreateProgramWithSource(ctx,1,&src,&src_length,&err_program);
 
-	std::ifstream srcFile_head("image.hpp");
+	std::ifstream srcFile_head("pixel.hpp");
 	string srcProg_head(istreambuf_iterator<char>(srcFile_head),(istreambuf_iterator<char>()));
     const char *src_head=srcProg_head.c_str();
     size_t src_length_head=srcProg_head.length();
     program_head=clCreateProgramWithSource(ctx,1,&src_head,&src_length_head,&err_program);
 	cout<<src_head<<endl;
 
-	const char *input_head_names[1]={"image.hpp"};
+	const char *input_head_names[1]={"pixel.hpp"};
 	cl_program input_head[1]={program_head};
 	err_build=clCompileProgram(program_cl,0,NULL,0,1,input_head,input_head_names,NULL,NULL);
 	cout<<err_build<<endl;

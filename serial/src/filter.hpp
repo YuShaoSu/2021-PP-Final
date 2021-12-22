@@ -23,7 +23,6 @@ public:
 	}
 	~GaussianKernel()
 	{
-		cout << "call of GaussianKernel destructor" << endl;
 		for(int i = 0; i < dim ; i++)
 			delete [] matrix[i];
 		delete [] matrix;

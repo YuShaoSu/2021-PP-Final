@@ -10,7 +10,7 @@ void Image::image_load()
 	}
     height = img.rows;
 	width = img.cols;
-	cout << "width: " << width << "height: "<< height << endl;
+	cout << "width: " << width << ", height: "<< height << endl;
 	pixels = new Pixel*[height];
 	for(int i = 0; i < height; i++)
 		pixels[i] = new Pixel[width];
